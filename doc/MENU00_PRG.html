@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="./robodoc.css" type="text/css" />
+<title>D:/usuario/ronald/clipper/personal/MENU00.PRG</title>
+<!-- Source: D:/usuario/ronald/clipper/personal/MENU00.PRG -->
+<!-- Generated with ROBODoc Version 4.99.41 (Feb  6 2011) -->
+</head>
+<body>
+<div id="logo">
+<a name="robo_top_of_doc"></a>
+</div> <!-- logo -->
+<div id="navigation">
+<a class="menuitem" href="./toc_index.html#top">Table of Contents</a>
+<a class="menuitem" href="./robo_sourcefiles.html#top">Sourcefiles</a>
+<a class="menuitem" href="./masterindex.html#top">Index</a>
+<a class="menuitem" href="./robo_generics.html#top">Generics</a>
+<a class="menuitem" href="./robo_functions.html#top">Functions</a>
+<a class="menuitem" href="./robo_strutures.html#top">Structures</a>
+</div> <!-- navigation -->
+<div id="content">
+<hr />
+<a name="ESTRUCTURA2fCARGO"></a>
+<a name="robo3"></a><h2>ESTRUCTURA/CARGO [ Generics ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="./robo_generics.html#robo_top_of_doc">Generics</a> ]</p>
+<p class="item_name">DATOS</p>
+<p>    veop1 : Lista de Programas
+</p>
+<pre>       01 : "SERVICIO DE ADMINISTRACION"
+       02 : "SERVICIOS DE SALUD"
+</pre>
+<p>    veop2 : Lista de Subprogramas
+</p>
+<pre>       01 : "APOYO ADMINISTRATIVO"
+       02 : "ATENCION HOSPITALARIA"
+       03 : "CONSULTA EXTERNA"
+</pre>
+<p>    veop3 : Lista de Actividades
+</p>
+<pre>       001 : "MEDICO"
+       002 : "PARAMEDICO"
+       003 : "ADMINISTRATIVO"
+</pre>
+<p></p>
+<p class="item_name">FUENTE</p>
+<pre class="source">PUBLIC veop1:={"SERVICIO DE ADMINISTRACION","SERVICIOS DE SALUD"}
+PUBLIC vere1:={"01","02"}
+PUBLIC veop2:={"APOYO ADMINISTRATIVO","ATENCION HOSPITALARIA","CONSULTA EXTERNA"}
+PUBLIC vere2:={"01","02","03"}
+PUBLIC veop3:={"MEDICO","PARAMEDICO","ADMINISTRATIVO"}
+PUBLIC vere3:={"001","002","003"}
+</pre>
+
+<hr />
+<a name="PLANILLA2fdirectorio"></a>
+<a name="robo5"></a><h2>PLANILLA/directorio [ Functions ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="./REPOR41_PRG.html#robo8">PLANILLA</a> ] [ <a href="./robo_functions.html#robo_top_of_doc">Functions</a> ]</p>
+<p class="item_name">FUNCION</p>
+<p>    Selecciona el <strong>directorio</strong> del mes para procesar datos [ meses.dbf ]
+</p>
+<p class="item_name">SINOPSIS</p>
+<pre class="source">FUNCTION prepla(cadena,par)
+</pre>
+<p class="item_name">FUENTE</p>
+<pre class="source">PUBLIC pant_1,<strong>directorio</strong>,hoy[1]
+  ini_var()
+  lmeses=mes
+  pant_1=OPEN_WINDOW(7,10,20,60,1,'',"B/N",5,.T.)
+  SET CURSOR ON
+  SET COLOR TO "W/N"
+  @ 9,12 SAY cadena
+  @ 10,12 SAY "Correspondiente al Mes de :" GET lmeses PICTURE "@!k" VALID lmeses!=SPACE(20) .AND. (AT(ALLTRIM(lmeses),"1,2,3,4,5,6,7,8,9,10,11,12")!=0 .OR. nu_mes(lmeses)!=0)
+  @ 12,12 SAY "A¤o :" GET anio PICTURE "9999" VALID anio &gt;0
+  @ 14,12 SAY "Fecha de extensi¢n :" GET cad_fecha VALID cad_fecha&gt;CTOD("  /  /    ")
+  @ 16,12 SAY "Dolar Actual :" GET ldolar_act PICTURE "999.99"
+  @ 18,12 SAY "Dolar Anterior Mes :" GET ldolar_ant PICTURE "999.99"
+
+  READ
+  IF !LASTKEY()=27
+       IF AT(ALLTRIM(lmeses),"1,2,3,4,5,6,7,8,9,10,11,12")!=0
+          lmeses=mes(VAL(lmeses))
+       ENDIF
+       <strong>directorio</strong>=LEFT(ALLTRIM(lmeses),3)+"_"+ALLTRIM(STR(anio))
+       SELECT 10
+       USE (dr+"meses") INDEX (dr+"meses")
+       SEEK <strong>directorio</strong>
+       IF FOUND()
+         SET DEFAULT TO (<strong>directorio</strong>)
+       ELSE
+          CLOSE_WINDOW(pant_1)
+          MENSAJE("No existen Datos para ese MES",12,17,'W/R+',.T.,.F.)
+          RETURN
+       ENDIF
+  ELSE
+     CLOSE_WINDOW(pant_1)
+     RETURN
+  ENDIF
+  CLOSE_WINDOW(pant_1)
+RETURN
+</pre>
+
+</div> <!-- content -->
+<div id="footer">
+<p>Generated from D:/usuario/ronald/clipper/personal/MENU00.PRG with <a href="http://www.xs4all.nl/~rfsber/Robo/robodoc.html">ROBODoc</a> V4.99.41 on Wed Jan 18 2012 09:50:52
+</p>
+</div> <!-- footer -->
+</body>
+</html>
