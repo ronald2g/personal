@@ -759,12 +759,10 @@ FUNCTION proceso(ndir_mes,it)
 
 
 
-       TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
-		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por,2) + dif_esc
-     
-     
-       
- 	IF jor_trab=1
+         TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
+		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por+dif_esc,2) 
+
+	IF jor_trab=1
  		limite=22986	
  	else
        	limite=10215
@@ -800,12 +798,9 @@ FUNCTION proceso(ndir_mes,it)
 			endif
 		endif
 	endif
-
-									
-      		
- 	
+	
        TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
-		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por,2) + dif_esc
+		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por+ dif_esc,2) 
 
 *		restar = hora2_extra(nitem,v_h,TotalG-limite)
 *		hrs_extras = hrs_extras - restar

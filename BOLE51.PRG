@@ -490,40 +490,57 @@ LOCAL mul:=0,mul1:=0
 		fonv_bbv = 0
 	endif
 
-       /* Descuentos
-       IF aporte_afp ="S"
-       fonvi       = fonvis(TotalG)
-       if dat_empl->afp = "BBV"
-	  if viejo(fecha_nac)
-	   afp_bbv = ROUND(TotalG*primaRiesgo,2)
-	  else
+       //f_p_a_c_p_s = cps(prof,TotaLG)
+       //afp_fut =  fpm(prof,TotaLG)
+       //fopeba  =  fpb(TotaLG)
+       //fonvi     =  fonvis(TotalG)
 
-	  afp_bbv = ROUND(TotalG*porc_afp,2)
-	  endif
-	  afp_fut = 0
-	  fonv_bbv = fonvi
-	  fonv_fut = 0
-       else
-	  if viejo(fecha_nac)
-	  
-	   afp_fut = ROUND(TotalG*primaRiesgo,2)
-	  else
+       DO CASE             //Salario Cotizable
+	 CASE aportes="A"
+	   if dat_empl->afp = "BBV"
+	      apo[1]=ROUND(apo[1]+TotalG,2) //ROUND(apo[1]+ROUND(TotalG-desc_ley,2),2)
+	      ric3[1]=ric3[1]+ROUND(TotalG*pat_bbv/100,2)
+	   else
+	      apo1[1]=ROUND(apo1[1]+TotalG,2)
+	      ric4[1]=ric4[1]+ROUND(TotalG*pat_fut/100,2)
+	   endif
+	      ric[1]=ric[1]+fonv_bbv
+	       ri[1]=ri[1]+fonv_fut
+	      ric1[1]=ric1[1]+afp_bbv
+	      ric2[1]=ric2[1]+afp_fut
 
-	  afp_fut = ROUND(TotalG*porc_afp,2)
-	  endif
-	  afp_bbv = 0
-	  fonv_fut = fonvi
-	  fonv_bbv = 0
-       end if
-       ELSE
-	  afp_fut = 0
-	  afp_bbv = 0
-	  fonv_fut = 0
-	  fonv_bbv = 0
-       ENDIF
-*/
 
-       //fonvi       = fonvis(TotalG)
+	 CASE aportes="M"
+	     if dat_empl->afp = "BBV"
+	      apo[2]=ROUND(apo[2]+TotalG,2) //ROUND(apo[2]+ROUND(TotalG-desc_ley,2),2)
+	       ric3[2]=ric3[2]+ROUND(TotalG*pat_bbv/100,2)
+	     else
+	      apo1[2]=ROUND(apo1[2]+TotalG,2)
+	      ric4[2]=ric4[2]+ROUND(TotalG*pat_fut/100,2)
+	     endif
+	      ric[2]=ric[2]+fonv_bbv
+	       ri[2]=ri[2]+fonv_fut
+	      ric1[2]=ric1[2]+afp_bbv
+	      ric2[2]=ric2[2]+afp_fut
+
+	      
+	      fcssmra=fcssmra+afp_fut
+	 CASE aportes="P"
+	     if dat_empl->afp = "BBV"
+	      apo[3]=ROUND(apo[3]+TotalG,2) //ROUND(apo[3]+ROUND(TotalG-desc_ley,2),2)
+	       ric3[3]=ric3[3]+ROUND(TotalG*pat_bbv/100,2)
+	     else
+	      apo1[3]=ROUND(apo1[3]+TotalG,2)
+	      ric4[3]=ric4[3]+ROUND(TotalG*pat_fut/100,2)
+	     endif
+
+	      ric[3]=ric[3]+fonv_bbv
+       	  ri[3]=ri[3]+fonv_fut
+	      ric1[3]=ric1[3]+afp_bbv
+	      ric2[3]=ric2[3]+afp_fut
+	     
+	      
+       ENDCASE
 
        desc_ley   = afp_bbv+afp_fut+desc_uno
 

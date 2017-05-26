@@ -1651,8 +1651,49 @@ FUNCTION total_ganado(nit)
 *      TotalG    = sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
 *		bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por
 
-       TotalG    = sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
-		bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por + dif_esc
+       TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
+		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por+dif_esc,2) 
+
+	IF jor_trab=1
+ 		limite=22986	
+ 	else
+       	limite=10215
+	endif
+	
+	if TotalG > limite
+		indice = indice - TotalG + limite
+		if indice < 0
+			bon_antig = bon_antig + indice
+			indice = 0
+			if bon_antig < 0
+				emerg = emerg + bon_antig
+				bon_antig = 0
+				if emerg < 0
+					recarg = recarg + emerg	
+					emerg = 0
+					if recarg < 0
+						hrs_extras = hrs_extras + recarg
+						recarg = 0
+						if hrs_extras < 0
+							dos_por = dos_por + hrs_extras
+							hrs_extras = 0
+							if dos_por < 0
+								cat_profe = cat_profe + dos_por
+								dos_por = 0
+								if cat_profe < 0
+									cat_profe = 0
+								endif
+							endif
+						endif
+					endif
+				endif
+			endif
+		endif
+	endif
+	
+       TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
+		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por+ dif_esc,2) 
+
      ENDIF
      SELECT(ar)
 RETURN totalg

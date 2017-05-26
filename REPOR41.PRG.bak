@@ -715,9 +715,6 @@ FUNCTION proceso(ndir_mes,it)
           v_h  = valor_hora(sexo,prof,sue_mens,bon_antig,0,dias)
        ENDIF
 
-
-
-
        hrs_extras= hora_extra(nitem,v_h)
        
        if hrs_extras>=sue_mens .AND. sue_mens>0
@@ -735,32 +732,30 @@ FUNCTION proceso(ndir_mes,it)
 *              ? "hrs_extras "+str(hrs_extras)
 *               ? "dias "+str(dias)
 *               ? "indice "+str(indice)
-
 *               ? "bon_nat2 "+str(bon_nat[2])
-
 *              inkey(0)
 *	   ENDIF
 
 
-	 *IF  p_prof > 0
-	   * gus bon_nat[4]=45*jor_trab
-           * bon_nat[4]=60*jor_trab
+*	IF  p_prof > 0
+*		gus bon_nat[4]=45*jor_trab
+*		bon_nat[4]=60*jor_trab
 
-         IF dias<30
-           bon_nat[4]= ROUND(ROUND(95/30,2)*dias*jor_trab,2)
-         ELSE
-          bon_nat[4]=95*jor_trab
-         ENDIF
+		IF dias<30
+			bon_nat[4]= ROUND(ROUND(95/30,2)*dias*jor_trab,2)
+        ELSE
+			bon_nat[4]=95*jor_trab
+		ENDIF
 	  
-	 // bono profesional no se paga a administradores
+	// bono profesional no se paga a administradores
 	   IF n_item = "CBB-001" 
 	      bon_nat[4] = 0      //gus
 	   ENDIF
 
-    if n_item = "CBB-052"   // durandal
-		dif_esc=0           // diferencia escalafon profesional
-		bon_nat[4]=0        // bono de riesgo salud
-	ENDIF   
+*    if n_item = "CBB-052"   // durandal
+*		dif_esc=0           // diferencia escalafon profesional
+*		bon_nat[4]=0        // bono de riesgo salud
+*	ENDIF   
 
 
 
@@ -769,49 +764,35 @@ FUNCTION proceso(ndir_mes,it)
      
      
        
- 	IF jor_trab=0.5
-       		limite=8799
-       	else
-       		limite=19799	
+ 	IF jor_trab=1
+ 		limite=22986	
+ 	else
+       	limite=10215
 	endif
 	
-	IF n_item = "CBB-056"  // 200
-		limite=19599
-	endif	
-	
-	if n_item = "CBB-171"   // 170
-		limite=19629
-	ENDIF
-	
-	if n_item = "CBB-052"  // durandal
-		limite=8799-920
-	ENDIF      
-    
-       
-	IF TotalG>limite
-		restar = hora2_extra(nitem,v_h,TotalG-limite)
-		hrs_extras = hrs_extras - restar
-		TotalG = TotalG - restar
-
-		restar = recarg2_noct(nitem,v_h,TotalG-limite)
-		recarg = recarg - restar
-      		TotalG = TotalG - restar
-      		if(TotalG>limite)
-      			emerg=emerg - TotalG +limite
-      			if(emerg<0)
-      				indice=indice+emerg
-      				emerg=0
-				if indice<0
-					dos_por=dos_por+indice
-					indice=0
-					if dos_por<0
-						cat_profe=cat_profe+dos_por
-						dos_por=0
-						if cat_profe<0
-							bon_antig=bon_antig+cat_profe
-							cat_profe=0
-							if bon_antig<0
-								bon_antig=0
+	if TotalG > limite
+		indice = indice - TotalG + limite
+		if indice < 0
+			bon_antig = bon_antig + indice
+			indice = 0
+			if bon_antig < 0
+				emerg = emerg + bon_antig
+				bon_antig = 0
+				if emerg < 0
+					recarg = recarg + emerg	
+					emerg = 0
+					if recarg < 0
+						hrs_extras = hrs_extras + recarg
+						recarg = 0
+						if hrs_extras < 0
+							dos_por = dos_por + hrs_extras
+							hrs_extras = 0
+							if dos_por < 0
+								cat_profe = cat_profe + dos_por
+								dos_por = 0
+								if cat_profe < 0
+									cat_profe = 0
+								endif
 							endif
 						endif
 					endif
@@ -819,10 +800,19 @@ FUNCTION proceso(ndir_mes,it)
 			endif
 		endif
 	endif
-	
+
+									
+      		
+ 	
        TotalG    = ROUND(sue_mens+bon_antig+indice+cat_profe+hrs_adic+sub_irrad+emerg+hrs_extras+recarg+bon_nat[1]+;
 		   bon_nat[2]+bon_nat[3]+bon_nat[4]+dos_por,2) + dif_esc
 
+*		restar = hora2_extra(nitem,v_h,TotalG-limite)
+*		hrs_extras = hrs_extras - restar
+*		TotalG = TotalG - restar
+*		restar = recarg2_noct(nitem,v_h,TotalG-limite)
+*		recarg = recarg - restar
+*  		TotalG = TotalG - restar
 
 *          IF nitem = "CBB-110"
 *               ? "bon_nat4 "+str(bon_nat[4])
@@ -907,7 +897,7 @@ FUNCTION proceso(ndir_mes,it)
 	     endif
 
 	      ric[3]=ric[3]+fonv_bbv
-	       ri[3]=ri[3]+fonv_fut
+       	  ri[3]=ri[3]+fonv_fut
 	      ric1[3]=ric1[3]+afp_bbv
 	      ric2[3]=ric2[3]+afp_fut
 	     

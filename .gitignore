@@ -2,3 +2,5 @@
 *.obj
 *.exe
 *.EXE
+*.bak
+*.BAK
