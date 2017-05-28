@@ -507,8 +507,7 @@ RETURN ROUND(se,2)
 *****************************************************************************
 FUNCTION valor_hora(sexo,profe,sueldo,bon_antig,categ_pro,diasT)
 LOCAL valor:=0.0
-
-     IF LEFT(profe,6)=='MEDICO' .OR. LEFT(profe,12)="FARMACEUTICA" .OR. LEFT(profe,10)="BIOQUIMICA" .OR. LEFT(profe,10)="ODONTOLOGO" .OR. LEFT(profe,6)="GINECO" .OR. LEFT(profe,8)="PEDIATRA"
+     IF LEFT(profe,6)='MEDICO' .OR. LEFT(profe,8)="FARMACEU" .OR. LEFT(profe,7)="BIOQUIM" .OR. LEFT(profe,8)="ODONTOLO" .OR. LEFT(profe,6)="GINECO" .OR. LEFT(profe,8)="PEDIATRA" .OR. LEFT(profe,7)="TECNICO" .OR. LEFT(profe,6)="BIOTEC" .OR. LEFT(profe,9)="ENFERMERA" .OR. LEFT(profe,9)="AUX.ENFER" .OR. LEFT(profe,12)="AUX.DE ENFER"
 	 valor=6*diasT
       ELSE
 	 DO CASE
